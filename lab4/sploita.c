@@ -7,7 +7,7 @@
 
 int main(void)
 {
-  writecmd(PIPEPATH, "Hello from sploita!");
+  writecmd(PIPEPATH, "Hello from sploitasdddddddddddddddddddddddddddddddddddddddddddddd!");
   
   return 0;
 }
