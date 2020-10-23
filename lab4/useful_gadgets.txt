@@ -1,0 +1,19 @@
+########################
+Calls for quick access
+
+./run-target 1 2452
+nc -l -p 6666
+########################
+Useful Gadgets
+
+Base libc address: 0xbba73000
+
+0x000286e5 (BBA9 B6E5): int 0x80; ret;
+- traps and calls ret
+- allows system calls
+
+0x001270e1 (BBB9 A0E1): pop eax; ret;
+- pops a value off the stack onto eax
+- used to make a syscall
+
+
