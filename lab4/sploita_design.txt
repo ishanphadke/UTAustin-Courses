@@ -1,0 +1,13 @@
+Work from top down to design ROP chain
+
+int 0x80; ret;
+
+Trap kernel, call execv
+----------------------------
+
+
+----------------------------
+
+
+----------------------------
+0x01 fill up buffer

