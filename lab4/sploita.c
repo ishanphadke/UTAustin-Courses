@@ -26,8 +26,8 @@ int main(void)
 
   int i;
   // Fill up buffer
-  // for(i = 0; i < 131; i++)
-  //   memcpy(bufr + i, "\x01",1);
+  for(i = 0; i < 131; i++)
+    memcpy(bufr + i, "\x01",1);
 
   // overwrite ebp
   // pop arg into edx
