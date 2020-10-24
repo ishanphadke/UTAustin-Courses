@@ -13,11 +13,13 @@ Base libc address: 0xbba73000
 - allows system calls
 
 0x001270e1 (BBB9 A0E1): pop eax; ret;-----------
-- pops a value off the stack onto eax
-- used to make a syscall
+0x0012ac1b (BBB9 DC1B): pop edx; ret; 
+0x00137422 (BBBA A422): pop ecx; ret; 
+- pops a value off the stack onto register
+- use to make a syscall
 
-0x000283c2: xor eax, eax; ret;---------
-0x000c8ed4: xor edx, edx; ret;---------
+0x000283c2 (BBA9 B3C2): xor eax, eax; ret;---------
+0x000c8ed4 (BBB3 BED4): xor edx, edx; ret;---------
 - xor registers together to get zero
 
 0x000dfd88: mov dword ptr [eax], edx; ret;---------
@@ -30,5 +32,8 @@ Base libc address: 0xbba73000
 0x000c54c0: mov eax, edx; ret;---------- 
 - move ecx or edx into eax
 
-0x00141607: add al, dl; ret;
+0x000f887e: mov dword ptr [ecx], edx; ret;--------------
+- moves edx to where ecx is pointing
+
+0x00141607 (BBBB 4607): add al, dl; ret;-------------
 - add lower 8 of edx to al
