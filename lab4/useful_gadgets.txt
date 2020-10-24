@@ -29,3 +29,6 @@ Base libc address: 0xbba73000
 0x00060b42: mov eax, ecx; ret;-----------
 0x000c54c0: mov eax, edx; ret;---------- 
 - move ecx or edx into eax
+
+0x00141607: add al, dl; ret;
+- add lower 8 of edx to al
