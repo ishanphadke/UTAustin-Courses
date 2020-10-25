@@ -32,7 +32,7 @@ Base libc address: 0xbba73000
 0x000c54c0: mov eax, edx; ret;---------- 
 - move ecx or edx into eax
 
-0x000f887e: mov dword ptr [ecx], edx; ret;--------------
+0x000f887e: mov dword ptr [ecx], edx; ret; 
 - moves edx to where ecx is pointing
 
 0x00141607 (BBBB 4607): add al, dl; ret;-------------
