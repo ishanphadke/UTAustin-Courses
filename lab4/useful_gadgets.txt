@@ -37,3 +37,5 @@ Base libc address: 0xbba73000
 
 0x00141607 (BBBB 4607): add al, dl; ret;-------------
 - add lower 8 of edx to al
+0x00008dd7 (BBA7 BDD7): add ah, cl; ret;
+- add lower 8 of ecx to ah
