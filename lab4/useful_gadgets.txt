@@ -40,3 +40,8 @@ Base libc address: 0xbba73000
 - add lower 8 of edx to al
 0x00008dd7 (BBA7 BDD7): add ah, cl; ret;
 - add lower 8 of ecx to ah
+
+0x0010888a (BBB7 B88A): inc edx; ret;
+
+0x0010df07 (BBB8 0F07): dec dword ptr [ecx]; ret;
+- decrement where ecx points to
