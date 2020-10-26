@@ -51,3 +51,6 @@ Base libc address: 0xbba73000
 
 0x0000069c (BBA7 369C): ret;
 - dummy gadget to avoid null addresses 
+
+0x000010c4 (BBA7 40C4): ret 0xc;
+- 

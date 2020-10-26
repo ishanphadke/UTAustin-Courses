@@ -91,6 +91,7 @@ int main(void)
   strcpy(bufr + 235, "\x01\x01\x01\x01");
   // socket arg 3 -> 0
   strcpy(bufr + 239, "\x01\x01\x01\x01");
+  strcpy(bufr + 243, "\x02\x02\x02\x02"); // test value
 
   writecmd(PIPEPATH, bufr);
   
