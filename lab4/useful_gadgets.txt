@@ -45,3 +45,9 @@ Base libc address: 0xbba73000
 
 0x0010df07 (BBB8 0F07): dec dword ptr [ecx]; ret;
 - decrement where ecx points to
+
+0x0010b717 (BBB7 E717): dec ecx; ret;
+- decrement ecx
+
+0x0000069c (BBA7 369C): ret;
+- dummy gadget to avoid null addresses 
