@@ -53,4 +53,11 @@ Base libc address: 0xbba73000
 - dummy gadget to avoid null addresses 
 
 0x00035b68 (BBAA 8B68): add esp, 0xc; ret; 
-- move esp 12 bytes down, i.e. 3 4-byte args
+- move esp down 12 bytes, i.e. 3 4-byte args
+0x0005d12a (BBAD 012A): add esp, 0x10; ret;
+- move esp down 16 bytes
+0x0004e5d5: add esp, 4; ret;
+- move esp down 4 bytes
+
+0x000cb98a (BBB3 E98A): and eax, edx; ret; 
+- ands eax and ecx

