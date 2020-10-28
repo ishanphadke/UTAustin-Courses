@@ -25,7 +25,7 @@ Base libc address: 0xbba73000
 0x000dfd88: mov dword ptr [eax], edx; ret;---------
 - move edx to where eax is pointing
 
-0x000dfd79: mov dword ptr [edx], eax; ret;---------
+0x000dfd79 (BBB5 2D79): mov dword ptr [edx], eax; ret;---------
 - move eax to where edx points to
 
 0x000f887e: mov dword ptr [ecx], edx; ret; 

