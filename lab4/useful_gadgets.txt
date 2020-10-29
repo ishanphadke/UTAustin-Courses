@@ -56,6 +56,8 @@ Base libc address: 0xbba73000
 - move esp down 12 bytes, i.e. 3 4-byte args
 0x0005d12a (BBAD 012A): add esp, 0x10; ret;
 - move esp down 16 bytes
+0x000ba3e2 (BBB2 D3E2): add esp, 8; ret;
+- move esp down 8 bytes
 0x0004e5d5: add esp, 4; ret;
 - move esp down 4 bytes
 
