@@ -7,7 +7,7 @@
 
 int main(void)
 {
-  char bufr[600]; // address = 0xbfbf671d
+  char bufr[700]; // address = 0xbfbf671d
 
   char trap[] = "\xe5\xb6\xa9\xbb";
 
